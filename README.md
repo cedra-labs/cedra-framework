@@ -93,9 +93,5 @@ The overall structure of the Cedra Framework is as follows:
 ├── cedra-framework                                 # Sources, testing and generated documentation for Cedra framework component
 ├── cedra-token                                 # Sources, testing and generated documentation for Cedra token component
 ├── cedra-stdlib                                 # Sources, testing and generated documentation for Cedra stdlib component
-├── move-stdlib                                 # Sources, testing and generated documentation for Move stdlib component
-├── cached-packages                                 # Tooling to generate SDK from move sources.
-├── src                                     # Compilation and generation of information from Move source files in the Cedra Framework. Not designed to be used as a Rust library
-├── releases                                    # Move release bundles
-└── tests
+└── move-stdlib                                 # Sources, testing and generated documentation for Move stdlib component
 ```
