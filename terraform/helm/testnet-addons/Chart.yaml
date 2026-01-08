@@ -1,8 +1,0 @@
-apiVersion: v2
-name: testnet-addons
-version: "0.1"
-appVersion: 0.1.0
-description: Additional components for cedra-nodes testnet
-home: https://cedra.network/
-sources:
-  - https://github.com/cedra-labs/cedra
