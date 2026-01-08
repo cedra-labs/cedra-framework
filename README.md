@@ -1,82 +1,101 @@
-<a href="https://cedra.network">
-	<img width="30%" src="https://cedra.network/images/logo.svg" alt="Cedra Banner" />
-</a>
+# The Cedra Framework Repo
 
----
+This repository serves as a mirror for the Cedra Framework packages, including the Move standard library. The contents are synced from [cedra-network](https://github.com/cedra-labs/cedra-network) on an hourly basis.
 
-[![License](https://img.shields.io/badge/license-Apache-green.svg)](LICENSE)
-<!-- [![Lint+Test](https://github.com/cedra-labs/cedra-network/actions/workflows/lint-test.yaml/badge.svg)](https://github.com/cedra-labs/cedra-network/actions/workflows/lint-test.yaml) -->
+By pulling dependencies from this mirror repository, developers can avoid downloading unnecessary data, reducing build time significantly.
 
-Cedra is the first community-owned blockchain built on the Move language that lets anyone spin up and govern their own sovereign networks. Designed as a public good, Cedra fuses protocol development, funding, and growth into open collaboration among core contributors, a non-profit foundation, and a worldwide guild of builders.
+## Usage
+To use the packages in this repository as dependencies in your Move project, you can include them in your move.toml file by adding them as Git dependencies.
 
-This main repository contains the core components of the Cedra Network ecosystem, including the CLI tools, node, and various modules that power the network.
-
-## Getting Started
-Before you begin, ensure you have the following installed:
-
-- **Rust 1.86+** - Required for building from source
-- **Operating System**: macOS, Ubuntu 22.04+, or Windows
-
-### Installation
-
-The quickest way to get started with Cedra is by installing the CLI:
-
-**Ubuntu/Debian:**
-```bash
-sudo add-apt-repository ppa:cedra-network/deps
-sudo apt update
-sudo apt install cedra-cli
-
-# Verify installation
-cedra --version
+To add a dependency from this repository, include the following in your `move.toml` file:
 ```
-
-**Windows (Chocolatey - recommended):**
-```bash
-choco install cedra
-
-# Verify installation
-cedra --version
+[dependencies]
+<package_name> = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "<path_to_directory_containing_Move.toml>", rev = "<commit_hash_or_branch_name>" }
 ```
-
-**macOS and any other OS**
-1. Visit the Cedra CLI v1.0.1 release page: https://github.com/cedra-labs/cedra-network/releases/tag/cedra-cli-v1.0.1.
-2. In the Assets section, choose the file that matches your platform
-3. Extract the archive
-4. Move the `cedra` (or `cedra.exe` on Windows) executable to a folder that is in your `PATH`
-5. Verify installation: `cedra --version`
-
-For detailed installation instructions and troubleshooting, see the [CLI Installation Guide](https://docs.cedra.network/getting-started/cli).
-
-**Build from source:**
-
-If you prefer compiling yourself or contributing to Cedra:
-
-```bash
-git clone https://github.com/cedra-labs/cedra-network
-cd cedra-network
-cargo build --release -p cedra
-
-# The compiled binary will be at target/release/cedra (or .exe on Windows)
-# Add it to your PATH and verify
-cedra --version
+For example, to add `CedraFramework` from the `mainnet` branch, you would use:
 ```
-
-For more detailed build instructions and development setup, see our [Development Setup Guide](https://docs.cedra.network/getting-started/libs)
-
-### Resources
-
-- [Documentation](https://docs.cedra.network/)
-- [Block Explorer](https://cedrascan.com)
-- [DApp Examples](https://docs.cedra.network/real-world-guides)
-- [X (Twitter)](https://x.com/cedranetwork)
-- [Telegram Network Channel](https://t.me/cedranetwork)
-- [Telegram Builders Group](https://t.me/+Ba3QXd0VG9U0Mzky)
-- [Discord Server](https://discord.com/invite/cedranetwork)
-
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }
+```
+Make sure to replace `subdir` with the appropriate path if you are referencing a different package within the framework.
 
 ## Contributing
+If you want to contribute to the development of the framework, please submit issues and pull requests to the [cedra-network](https://github.com/cedra-labs/cedra-network) repository, where active development happens.
 
-You can learn more about contributing to the Cedra project by reading our [Contribution Guide](https://github.com/cedra-labs/cedra-network/blob/main/CONTRIBUTING.md) and by viewing our [Code of Conduct](https://github.com/cedra-labs/cedra-network/blob/main/CODE_OF_CONDUCT.md).
+Bugs, feature requests, or discussions of enhancements will be tracked in the issue section there as well. This repository is a mirror, and issues will not be tracked here.
 
-Cedra Core is licensed under [Apache 2.0](https://github.com/cedra-labs/cedra-network/blob/main/LICENSE).
+## Compilation and Generation
+
+The documents above were created by the Move documentation generator for Cedra. It is available as part of the Cedra CLI. To see its options, run:
+```shell
+cedra move document --help
+```
+
+The documentation process is also integrated into the framework building process and will be automatically triggered like other derived artifacts, via `cached-packages` or explicit release building.
+
+## Running Move tests
+
+To test our Move code while developing the Cedra Framework, run `cargo test` inside this directory:
+
+```
+cargo test
+```
+
+(Alternatively, run `cargo test -p cedra-framework` from anywhere.)
+
+To skip the Move prover tests, run:
+
+```
+cargo test -- --skip prover
+```
+
+To filter and run **all** the tests in specific packages (e.g., `cedra_stdlib`), run:
+
+```
+cargo test -- cedra_stdlib --skip prover
+```
+
+(See tests in `tests/move_unit_test.rs` to determine which filter to use; e.g., to run the tests in `cedra_framework` you must filter by `move_framework`.)
+
+To **filter by test name or module name** in a specific package (e.g., run the `test_empty_range_proof` in `cedra_stdlib::ristretto255_bulletproofs`), run:
+
+```
+TEST_FILTER="test_range_proof" cargo test -- cedra_stdlib --skip prover
+```
+
+Or, e.g., run all the Bulletproof tests:
+```
+TEST_FILTER="bulletproofs" cargo test -- cedra_stdlib --skip prover
+```
+
+To show the amount of time and gas used in every test, set env var `REPORT_STATS=1`.
+E.g.,
+```
+REPORT_STATS=1 TEST_FILTER="bulletproofs" cargo test -- cedra_stdlib --skip prover
+```
+
+Sometimes, Rust runs out of stack memory in dev build mode.  You can address this by either:
+1. Adjusting the stack size
+
+```
+export RUST_MIN_STACK=4297152
+```
+
+2. Compiling in release mode
+
+```
+cargo test --release -- --skip prover
+```
+
+## Layout
+The overall structure of the Cedra Framework is as follows:
+
+```
+├── cedra-framework                                 # Sources, testing and generated documentation for Cedra framework component
+├── cedra-token                                 # Sources, testing and generated documentation for Cedra token component
+├── cedra-stdlib                                 # Sources, testing and generated documentation for Cedra stdlib component
+├── move-stdlib                                 # Sources, testing and generated documentation for Move stdlib component
+├── cached-packages                                 # Tooling to generate SDK from move sources.
+├── src                                     # Compilation and generation of information from Move source files in the Cedra Framework. Not designed to be used as a Rust library
+├── releases                                    # Move release bundles
+└── tests
+```

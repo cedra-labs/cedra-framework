@@ -1,8 +1,0 @@
-apiVersion: v2
-name: cedra-genesis
-version: 0.1.0
-appVersion: 0.1.0
-description: Cedra blockchain automated genesis ceremony for testnets
-home: https://cedra.network/
-sources:
-- https://github.com/cedra-labs/cedra

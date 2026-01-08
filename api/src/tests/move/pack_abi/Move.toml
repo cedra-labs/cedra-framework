@@ -1,9 +1,0 @@
-[package]
-name = "pack_abi"
-version = "0.0.0"
-
-[dependencies]
-CedraFramework = { local = "../../../../../cedra-move/framework/cedra-framework" }
-
-[addresses]
-abi = "_"

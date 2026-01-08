@@ -1,9 +1,0 @@
-[package]
-name = "ApiTest"
-version = "0.0.0"
-
-[addresses]
-# test user address to be installed dynamically on build
-
-[dependencies]
-CedraFramework = { local = "../../cedra-move/framework/cedra-framework" }

@@ -1,1 +1,0 @@
-# Cedra Node Testnet

@@ -1,6 +1,0 @@
-[package]
-name = 'add-numbers'
-version = '1.0.0'
-[dependencies.CedraFramework]
-local = '../../../..'
-subdir = 'cedra-move/framework/cedra-framework'
