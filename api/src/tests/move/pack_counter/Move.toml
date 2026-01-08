@@ -1,9 +1,0 @@
-[package]
-name = "pack_counter"
-version = "0.0.0"
-
-[dependencies]
-CedraFramework = { local = "../../../../../cedra-move/framework/cedra-framework" }
-
-[addresses]
-addr = "_"

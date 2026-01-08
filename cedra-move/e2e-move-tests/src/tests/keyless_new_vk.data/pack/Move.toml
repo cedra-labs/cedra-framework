@@ -1,6 +1,0 @@
-[package]
-name = 'UpdateGroth16VerificationKey'
-version = "0.0.0"
-
-[dependencies]
-CedraFramework = { local = "../../../../../framework/cedra-framework" }
